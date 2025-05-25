@@ -1,0 +1,102 @@
+openapi: 3.1.0
+info:
+  title: API Gateway
+  description: Прокси-слой для взаимодействия с File Storing и File Analysis сервисами
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Локальный запуск API Gateway
+
+paths:
+  /files:
+    post:
+      summary: Загрузить файл
+      operationId: uploadFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Файл успешно загружен
+        '400':
+          description: Ошибка при загрузке файла
+
+  /files/{id}:
+    get:
+      summary: Получить файл по ID
+      operationId: getFileById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное получение файла
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Файл не найден
+
+  /analysis/file/{fileId}:
+    post:
+      summary: Отправить файл на анализ
+      operationId: analyzeFile
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Анализ успешно инициирован
+        '404':
+          description: Файл не найден
+
+  /analysis/cloud/{location}:
+    get:
+      summary: Получить изображение облака слов по геолокации
+      operationId: getWordCloud
+      parameters:
+        - name: location
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Изображение облака слов
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Данные не найдены
+
+  /health:
+    get:
+      summary: Проверка состояния API Gateway
+      operationId: checkHealth
+      responses:
+        '200':
+          description: Сервис работает
+          content:
+            application/json:
+              schema:
+                type: string
+        '503':
+          description: Сервис недоступен

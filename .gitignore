@@ -1,0 +1,21 @@
+# === IntelliJ IDEA ===
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# === Logs ===
+*.log
+
+# === OS / IDE Trash ===
+.DS_Store
+Thumbs.db
+
+# === Environment files ===
+.env
+
+# === Docker ===
+*.pid
+docker-compose.override.yml
+**/Dockerfile.local
+**/.docker/
