@@ -1,0 +1,17 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: file-storing-service
+  datasource:
+    url: jdbc:postgresql://postgres:5432/storing
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+file:
+  storage-location: /app/files

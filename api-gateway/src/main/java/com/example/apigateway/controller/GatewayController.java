@@ -9,7 +9,7 @@ public class GatewayController {
     @GetMapping("/health")
     public String health() {
         return "API Gateway is very much alive. Thank you for your concern. " +
-                "Take a pie, a cup of rice and a cat wife from the shelf!";
+                "Take a pie, a bowl of rice and a cat wife from the shelf!";
     }
 
 }
