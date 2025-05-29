@@ -28,4 +28,8 @@ public class FileStorage {
         return new FileSystemResource(filePath);
     }
 
+    public void deleteFile(String filePath) throws IOException {
+        Files.deleteIfExists(Paths.get(filePath));
+    }
+
 }

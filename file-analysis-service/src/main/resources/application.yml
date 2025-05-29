@@ -4,13 +4,10 @@ server:
 spring:
   application:
     name: file-analysis-service
-  datasource:
-    url: jdbc:postgresql://postgres:5432/analysis
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
 
 file:
-  storage-location: app/wordclouds
+  storage-location: app/files

@@ -1,29 +1,25 @@
 package com.example.fileanalysisservice.controller;
 
-import com.example.fileanalysisservice.service.WordCloudService;
+import com.example.fileanalysisservice.service.AnalysisService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/analysis")
-public class WordCloudController {
+public class AnalysisController {
 
-    private final WordCloudService service;
+    private final AnalysisService service;
 
-    public WordCloudController(WordCloudService service) {
+    public AnalysisController(AnalysisService service) {
         this.service = service;
     }
 
-    @GetMapping("/{fileId}")
-    public ResponseEntity<String> analyzeFile(@PathVariable UUID fileId) throws IOException {
+    @PostMapping("/file/{fileId}")
+    public ResponseEntity<String> analyzeFile(@PathVariable UUID fileId) {
         String location = service.analyzeFile(fileId);
         return ResponseEntity.ok(location);
     }

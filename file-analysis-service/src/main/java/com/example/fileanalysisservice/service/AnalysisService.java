@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
-public class WordCloudService {
+public class AnalysisService {
 
     private final AnalyzedFileRepository repository;
     private final FileStoringClient fileStoringClient;
@@ -25,15 +25,15 @@ public class WordCloudService {
     @Value("${file.storage-location}")
     private String storageLocation;
 
-    public WordCloudService(AnalyzedFileRepository repository,
-                            FileStoringClient fileStoringClient,
-                            WordCloudApiClient wordCloudApiClient) {
+    public AnalysisService(AnalyzedFileRepository repository,
+                           FileStoringClient fileStoringClient,
+                           WordCloudApiClient wordCloudApiClient) {
         this.repository = repository;
         this.fileStoringClient = fileStoringClient;
         this.wordCloudApiClient = wordCloudApiClient;
     }
 
-    public String analyzeFile(UUID fileId) throws IOException {
+    public String analyzeFile(UUID fileId) {
         return repository.findById(fileId)
                 .map(AnalyzedFile::getLocation)
                 .orElseGet(() -> {
@@ -43,19 +43,20 @@ public class WordCloudService {
                     Path path = Paths.get(storageLocation, filename);
 
                     try {
+                        Files.createDirectories(path.getParent());
                         Files.write(path, image);
                     } catch (IOException e) {
                         throw new RuntimeException("Failed to save image", e);
                     }
 
-                    String location = path.toString();
-                    repository.save(new AnalyzedFile(fileId, location));
-                    return location;
+                    repository.save(new AnalyzedFile(fileId, filename));
+                    return filename;
                 });
     }
 
     public Resource getImage(String location) {
-        return new FileSystemResource(location);
+        Path path = Paths.get(storageLocation, location);
+        return new FileSystemResource(path);
     }
 
 }

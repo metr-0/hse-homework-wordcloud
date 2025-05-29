@@ -28,6 +28,12 @@ paths:
           description: Файл успешно загружен
         '400':
           description: Ошибка при загрузке файла
+    get:
+      summary: Получить список всех файлов
+      operationId: getAllFiles
+      responses:
+        '200':
+          description: Список файлов
 
   /files/{id}:
     get:
@@ -47,6 +53,20 @@ paths:
               schema:
                 type: string
                 format: binary
+        '404':
+          description: Файл не найден
+    delete:
+      summary: Удалить файл по ID
+      operationId: deleteFileById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Удаление прошло успешно
         '404':
           description: Файл не найден
 
@@ -95,8 +115,6 @@ paths:
         '200':
           description: Сервис работает
           content:
-            application/json:
+            text/plain:
               schema:
                 type: string
-        '503':
-          description: Сервис недоступен

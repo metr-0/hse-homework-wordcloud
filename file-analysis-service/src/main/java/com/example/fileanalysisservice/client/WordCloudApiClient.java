@@ -13,7 +13,7 @@ public class WordCloudApiClient {
     }
 
     public byte[] getWordCloud(byte[] fileContent) {
-        String text = new String(fileContent); // читаем текст из байтов
+        String text = new String(fileContent);
 
         return webClient
                 .get()
@@ -23,8 +23,12 @@ public class WordCloudApiClient {
                         .queryParam("format", "png")
                         .queryParam("width", 600)
                         .queryParam("height", 600)
-                        .queryParam("fontFamily", "serif")
-                        .queryParam("fontWeight", "normal")
+                        .queryParam("rotation", 0)
+                        .queryParam("fontFamily", "sans-serif")
+                        .queryParam("fontWeight", "semibold")
+                        .queryParam("colors",
+                                "[\"#1f0006\", \"#1f0006\", \"#8b0000\", \"#7c0015\", \"#b90e0a\"]")
+                        .queryParam("backgroundColor", "#eae4e5")
                         .build())
                 .retrieve()
                 .bodyToMono(byte[].class)

@@ -11,7 +11,7 @@ public class FileStoringClient {
     private final WebClient webClient;
 
     public FileStoringClient(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://file-storing-service:8001").build();
+        this.webClient = builder.baseUrl("http://file-storing-service:8081").build();
     }
 
     public byte[] getFile(UUID fileId) {
